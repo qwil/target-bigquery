@@ -225,7 +225,16 @@ def define_schema(field, name, required_fields=None):
             schema_type = field_type
 
     elif field_type == "number":
-        schema_type = "FLOAT"
+        # The main repo has this coded to FLOAT, but this causes a number of issues around floating point inaccuracies
+        # so we have changed it to NUMERIC which is an accurate representation at the cost of a smaller range of
+        # representable numbers (~10E29 vs MAX_FLOAT). At current we have no need for anything even remotely resembling
+        # those values so we are opting to use that instead of dealing trying to compare value equivalency that result
+        # in tiny fractional value differences (e.g. 1E-15) that are a result of using floats.
+        #
+        # For more info see the BigQuery docs:
+        # https://cloud.google.com/bigquery/docs/reference/standard-sql/data-types#decimal_types
+        # TODO: make this configurable (ideally in the upstream repo)
+        schema_type = "NUMERIC"
     else:
         schema_type = field_type
 

@@ -27,7 +27,7 @@ class TestSimpleStream(unittestcore.BaseUnitTest):
                 self.assertEqual(f.field_type.upper(), "INTEGER")
 
             elif f.name == "ratio":
-                self.assertEqual(f.field_type.upper(), "FLOAT")
+                self.assertEqual(f.field_type.upper(), "NUMERIC")
 
             elif f.name == "timestamp":
                 self.assertEqual(f.field_type.upper(), "TIMESTAMP")
